@@ -1,0 +1,20 @@
+Nlayers=3;
+Nneurons=[784,800,10];
+hasBiasneuron=[1,1,0];
+net=make_ffnet(Nlayers,Nneurons,hasBiasneuron);
+w=importdata('weights.mat');
+net.w{1}=w{1};
+net.w{2}=w{2};
+data=importdata('digits.mat');
+%train=data.train;
+test=data.test;
+mat=[];
+value=zeros(20,1);
+for i=1:20
+    mat=test{1}(i,:);
+    net1=ffnet_eval(net,mat);
+    out=round(net1.O{3});
+    value(i)=find(out==1)-1;
+end
+mat=reshape(mat,[28,28]);
+imshow(mat);
